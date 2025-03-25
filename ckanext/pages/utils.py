@@ -283,7 +283,7 @@ def pages_upload():
 
 def group_list_pages(id, group_type, group_dict=None):
     tk.c.pages_dict = tk.get_action('ckanext_pages_list')(
-        context={}, data_dict={'org_id': tk.c.group_dict['id']}
+        context={}, data_dict={'org_id': tk.group_dict['id']}
     )
     return tk.render(
         'ckanext_pages/{}_page_list.html'.format(group_type),
@@ -299,7 +299,7 @@ def _template_setup_group(id, group_type):
     context = {'for_view': True}
     action = 'organization_show' if group_type == 'organization' else 'group_show'
     try:
-        tk.c.group_dict = tk.get_action(action)(context, {'id': id})
+        tk.group_dict = tk.get_action(action)(context, {'id': id})
     except tk.ObjectNotFound:
         tk.abort(404, _('{} not found'.format(group_type.title())))
     except tk.NotAuthorized:
@@ -325,7 +325,7 @@ def group_show(id, group_type, page=None):
     _page = tk.get_action('ckanext_pages_show')(
         context={},
         data_dict={
-            'org_id': tk.c.group_dict['id'], 'page': page}
+            'org_id': tk.group_dict['id'], 'page': page}
     )
     if _page is None:
         return group_list_pages(id, group_type, group_dict)
@@ -350,7 +350,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
         if page.startswith('/'):
             page = page[1:]
         page_dict = tk.get_action('ckanext_pages_show')(
-            context={}, data_dict={'org_id': tk.c.group_dict['id'], 'page': page}
+            context={}, data_dict={'org_id': tk.group_dict['id'], 'page': page}
         )
     if page_dict is None:
         page_dict = {}
@@ -362,7 +362,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
         page_dict.update(data)
 
         data = _parse_form_data(tk.request)
-        page_dict['org_id'] = tk.c.group_dict['id']
+        page_dict['org_id'] = tk.group_dict['id']
         page_dict['page'] = page
         try:
             tk.get_action('ckanext_org_pages_update')(
@@ -403,13 +403,13 @@ def group_delete(id, group_type, page):
         page = page[1:]
 
     if 'cancel' in tk.request.args:
-        return tk.redirect_to('pages.%s_edit' % group_type, id=tk.c.group_dict['name'], page=page)
+        return tk.redirect_to('pages.%s_edit' % group_type, id=tk.group_dict['name'], page=page)
 
     try:
         if tk.request.method == 'POST':
             action = 'ckanext_org_pages_delete' if group_type == 'organization' else 'ckanext_group_pages_delete'
             action = tk.get_action(action)
-            action({}, {'org_id': tk.c.group_dict['id'], 'page': page})
+            action({}, {'org_id': tk.group_dict['id'], 'page': page})
             endpoint = 'pages.{}_pages_index'.format(group_type)
             return tk.redirect_to(endpoint, id=id)
         else:
