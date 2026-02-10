@@ -17,8 +17,9 @@ Note: For CKAN 2.7 and 2.8 use v0.3.7 or older versions.
 Use `pip` to install this plugin. This example installs it in `/home/www-data/pyenv`, assuming you have [setup a virtualenv](http://docs.ckan.org/en/latest/maintaining/installing/install-from-source.html#install-ckan-into-a-python-virtual-environment) there:
 
 ```
-source /home/www-data/pyenv/bin/activate
-pip install -e 'git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages'
+source /usr/lib/ckan/default/bin/activate
+git clone git@serv-gitlab.igbmc.u-strasbg.fr:ics/ckanext-pages.git
+pip install -e
 ```
 
 Make sure to add `pages` to `ckan.plugins` in your config file:
