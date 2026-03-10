@@ -113,10 +113,6 @@ class PagesPlugin(PagesPluginBase):
 
         tk.add_resource('assets', 'pages')
 
-        tk.add_public_directory(config, 'assets/')
-        tk.add_public_directory(config, 'assets/vendor/ckeditor/')
-        tk.add_public_directory(config, 'assets/vendor/ckeditor/skins/moono-lisa')
-
     def get_helpers(self):
         return {
             'build_nav_main': build_pages_nav_main,
