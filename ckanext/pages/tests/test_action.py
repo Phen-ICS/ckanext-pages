@@ -77,17 +77,21 @@ class TestPagesActions:
 
         page = helpers.call_action("ckanext_pages_show", {}, page="page_name")
 
-        revisions = page.get('revisions')
+        revisions = page.get("revisions")
 
         assert len(revisions) == 2
-        assert page['content'] == "This is a test content updated"
+        assert page["content"] == "This is a test content updated"
 
-        sorted_revisions = OrderedDict(reversed(sorted(
-                revisions.items(),
-                key=lambda x: datetime.datetime.timestamp(
-                    datetime.datetime.fromisoformat(x[1]['created'])
-                    )
-        )))
+        sorted_revisions = OrderedDict(
+            reversed(
+                sorted(
+                    revisions.items(),
+                    key=lambda x: datetime.datetime.timestamp(
+                        datetime.datetime.fromisoformat(x[1]["created"])
+                    ),
+                )
+            )
+        )
 
         last_revision = sorted_revisions.popitem()
 
@@ -95,14 +99,14 @@ class TestPagesActions:
             "ckanext_pages_revision_restore",
             {"user": user["name"]},
             page="page_name",
-            revision=last_revision[0]
+            revision=last_revision[0],
         )
 
         page = helpers.call_action("ckanext_pages_show", {}, page="page_name")
 
-        assert page['title'] == "Page Updated"
-        assert page['content'] == "First Revision Content"
-        assert page['revisions'][last_revision[0]]['current']
+        assert page["title"] == "Page Updated"
+        assert page["content"] == "First Revision Content"
+        assert page["revisions"][last_revision[0]]["current"]
 
     def test_pages_list(self, app):
         sysadmin = factories.Sysadmin()

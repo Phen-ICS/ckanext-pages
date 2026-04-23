@@ -38,59 +38,66 @@ def make_uuid():
 
 
 class Page(DomainObject, BaseModel):
-
     __tablename__ = "ckanext_pages"
 
     id = Column(types.UnicodeText, primary_key=True, default=make_uuid)
-    title = Column(types.UnicodeText, default=u'')
-    name = Column(types.UnicodeText, default=u'')
-    content = Column(types.UnicodeText, default=u'')
-    lang = Column(types.UnicodeText, default=u'')
-    order = Column(types.UnicodeText, default=u'')
+    title = Column(types.UnicodeText, default="")
+    name = Column(types.UnicodeText, default="")
+    content = Column(types.UnicodeText, default="")
+    lang = Column(types.UnicodeText, default="")
+    order = Column(types.UnicodeText, default="")
     private = Column(types.Boolean, default=True)
     group_id = Column(types.UnicodeText, default=None)
-    user_id = Column(types.UnicodeText, default=u'')
+    user_id = Column(types.UnicodeText, default="")
     publish_date = Column(types.DateTime)
     page_type = Column(types.UnicodeText)
     created = Column(types.DateTime, default=datetime.datetime.utcnow)
     modified = Column(types.DateTime, default=datetime.datetime.utcnow)
-    extras = Column(types.UnicodeText, default=u'{}')
-    revisions = Column(MutableDict.as_mutable(JSONB), default=u'{}')
+    extras = Column(types.UnicodeText, default="{}")
+    revisions = Column(MutableDict.as_mutable(JSONB), default="{}")
 
     @classmethod
     def get(cls, **kw):
-        '''Finds a single entity in the register.'''
+        """Finds a single entity in the register."""
         query = model.Session.query(cls).autoflush(False)
         return query.filter_by(**kw).first()
 
     @classmethod
     def pages(cls, **kw):
-        '''Finds a single entity in the register.'''
-        order = kw.pop('order', False)
-        order_publish_date = kw.pop('order_publish_date', False)
+        """Finds a single entity in the register."""
+        order = kw.pop("order", False)
+        order_publish_date = kw.pop("order_publish_date", False)
 
         query = model.Session.query(cls).autoflush(False)
         query = query.filter_by(**kw)
         if order:
-            query = query.order_by(sa.cast(cls.order, sa.Integer)).filter(cls.order != '')
+            query = query.order_by(sa.cast(cls.order, sa.Integer)).filter(
+                cls.order != ""
+            )
         elif order_publish_date:
-            query = query.order_by(cls.publish_date.desc()).filter(cls.publish_date != None)  # noqa: E711
+            query = query.order_by(cls.publish_date.desc()).filter(
+                cls.publish_date.isnot(None)
+            )
         else:
             query = query.order_by(cls.created.desc())
         return query.all()
 
     def get_ordered_revisions(self):
         # Compare timestamps to avoid different datetime formats error
-        return OrderedDict(reversed(sorted(
-                self.revisions.items(),
-                key=lambda x: datetime.datetime.timestamp(
-                    datetime.datetime.fromisoformat(x[1]['created'])
-                    )
-        )))
+        return OrderedDict(
+            reversed(
+                sorted(
+                    self.revisions.items(),
+                    key=lambda x: datetime.datetime.timestamp(
+                        datetime.datetime.fromisoformat(x[1]["created"])
+                    ),
+                )
+            )
+        )
 
 
 def table_dictize(obj, context, **kw):
-    '''Get any model object and represent it as a dict'''
+    """Get any model object and represent it as a dict"""
     result_dict = {}
 
     if isinstance(obj, Row):
@@ -102,12 +109,12 @@ def table_dictize(obj, context, **kw):
 
     for field in fields:
         name = field
-        if name in ('current', 'expired_timestamp', 'expired_id'):
+        if name in ("current", "expired_timestamp", "expired_id"):
             continue
-        if name == 'continuity_id':
+        if name == "continuity_id":
             continue
         value = getattr(obj, name)
-        if name == 'extras' and value:
+        if name == "extras" and value:
             result_dict.update(json.loads(value))
         elif value is None:
             result_dict[name] = value
@@ -126,7 +133,8 @@ def table_dictize(obj, context, **kw):
 
     # HACK For optimisation to get metadata_modified created faster.
 
-    context['metadata_modified'] = max(result_dict.get('revision_timestamp', ''),
-                                       context.get('metadata_modified', ''))
+    context["metadata_modified"] = max(
+        result_dict.get("revision_timestamp", ""), context.get("metadata_modified", "")
+    )
 
     return result_dict

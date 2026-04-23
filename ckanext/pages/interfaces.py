@@ -2,12 +2,12 @@ from ckan.plugins.interfaces import Interface
 
 
 class IPagesSchema(Interface):
-    '''
+    """
     Interface to define custom schemas.
-    '''
+    """
 
     def update_pages_schema(self, schema):
-        u'''
+        """
         Return a schema with the fields of the pages.
 
         ckanext-pages will use the returned schema to define the fields of the
@@ -25,5 +25,5 @@ class IPagesSchema(Interface):
         :returns: a dictionary mapping fields keys to lists of
           validator and converter functions to be applied to those keys
         :rtype: dictionary
-        '''
+        """
         return schema
