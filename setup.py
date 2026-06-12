@@ -41,7 +41,7 @@ setup(
     author_email="david.raznick@gokfn.org",
     url="https://github.com/ckan/ckanext-pages",
     license="GNU Affero General Public License (AGPL) v3.0",
-    packages=find_packages(exclude=["ez_setup", "examples", "tests"]),
+    packages=find_packages(exclude=["ez_setup", "examples"]),
     namespace_packages=["ckanext"],
     include_package_data=True,
     package_data={
