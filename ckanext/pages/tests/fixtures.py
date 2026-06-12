@@ -1,6 +1,7 @@
 import pytest
 
 import ckan.model as model
+import sqlalchemy as sa
 
 from ckanext.pages import db
 
@@ -9,6 +10,12 @@ from ckanext.pages import db
 def clean_db(reset_db, migrate_db_for):
     reset_db()
     migrate_db_for("pages")
+
+    # Some test environments rebuild CKAN core tables but skip extension
+    # migrations silently. Ensure pages table is present to avoid UndefinedTable.
+    inspector = sa.inspect(model.meta.engine)
+    if "ckanext_pages" not in inspector.get_table_names():
+        db.Page.__table__.create(bind=model.meta.engine, checkfirst=True)
 
 
 @pytest.fixture

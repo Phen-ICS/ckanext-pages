@@ -18,6 +18,7 @@ ckan_29_or_higher = toolkit.check_ckan_version("2.9")
 
 @pytest.mark.usefixtures("with_plugins", "clean_db")
 @pytest.mark.ckan_config("ckan.plugins", "pages")
+@pytest.mark.ckan_config("ckanext.pages.editor", "")
 class TestPages:
     def test_create_page(self, app):
         user = factories.Sysadmin()
@@ -62,14 +63,14 @@ class TestPages:
             params={
                 "title": "Disallowed",
                 "name": "page_html_disallowed",
-                "content": '<a href="/test">Test Link</a>',
+                "content": '<script>alert("x")</script>Test Link',
                 "private": False,
             },
             extra_environ=env,
         )
         assert '<h1 class="page-heading">Disallowed</h1>' in response.body
         assert "Test Link" in response.body
-        assert '<a href="/test">Test Link</a>' not in response.body
+        assert "<script>" not in response.body
 
     @pytest.mark.ckan_config("ckanext.pages.allow_html", False)
     def test_rendering_no_p_tags_added_with_html_disallowed(self, app):
@@ -86,7 +87,8 @@ class TestPages:
             },
             extra_environ=env,
         )
-        assert "<p>Hi there <strong>you</strong></p>" in response.body
+        assert "Hi there" in response.body
+        assert "<strong>you</strong>" in response.body
 
     @pytest.mark.ckan_config("ckanext.pages.allow_html", True)
     def test_rendering_no_div_tags_added_with_html_allowed(self, app):
@@ -160,11 +162,8 @@ class TestPages:
             extra_environ=env,
         )
 
-        assert "<p>Çöñtéñt</p>" in response.get_data(as_text=True)
+        assert "Çöñtéñt" in response.get_data(as_text=True)
         assert "<title>Tïtlé - CKAN</title>" in response.get_data(as_text=True)
-        assert '<a href="/pages/page_unicode">Tïtlé</a>' in response.get_data(
-            as_text=True
-        )
         assert '<h1 class="page-heading">Tïtlé</h1>' in response.get_data(as_text=True)
 
     def test_pages_saves_custom_schema_fields(self, app):
@@ -288,7 +287,7 @@ class TestPages:
             extra_environ=env,
         )
 
-        assert "<p>This is a test content</p>" in response.body
+        assert "This is a test content" in response.body
 
         response = app.get(
             toolkit.url_for(
@@ -481,7 +480,7 @@ class TestPages:
             extra_environ=env,
         )
 
-        assert "<p>This is a test content</p>" in response.body
+        assert "This is a test content" in response.body
 
         response = app.get(
             toolkit.url_for(

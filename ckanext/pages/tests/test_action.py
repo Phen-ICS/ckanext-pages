@@ -7,6 +7,7 @@ from ckan.tests import factories, helpers
 
 @pytest.mark.usefixtures("with_plugins", "clean_db")
 @pytest.mark.ckan_config("ckan.plugins", "pages")
+@pytest.mark.ckan_config("ckanext.pages.editor", "")
 class TestPagesActions:
     def test_pages_create_action(self, app):
         user = factories.User()
