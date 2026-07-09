@@ -168,6 +168,14 @@ Configure your [plugin assets](https://docs.ckan.org/en/2.9/theming/webassets.ht
 * lxml (optional, only used for injecting resource views into pages)
 
 
+## Tests
+
+```shell
+docker exec -u ckan -it ckan-app pytest --ckan-ini=/plugins/ckanext-pages/test.ini /plugins/ckanext-pages/ckanext/pages/tests
+```
+
+
+
 ## License
 
 Released under the GNU Affero General Public License (AGPL) v3.0. See the file `LICENSE` for details.
