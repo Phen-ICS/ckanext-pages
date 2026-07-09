@@ -1,37 +1,44 @@
-<div class="row page-list-item dataset-item">
+{% set title = page.title or page.name %}
+{% set content = page.content %}
 
-{% block page_item_image %}
-{% if page.image %}
-  <div class="span3 col-md-2 image">
-    <a style="background-image:url({{ page.image }})" href="{{ url }}"></a>
-  </div>
-{% endif %}
-{% endblock %}
-
-<div class="{% if page.image %}span8 col-md-10{% else %}span11 col-md-12{% endif %}">
-
-     {% block page_item_heading %}
-     <h3 class="dataset-heading">
-        <a href="{{ url }}" >{{ page.title }}</a>
-        {% if page.publish_date %}
-           <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
-        {% endif %}
-    </h3>
-    {% endblock %}
-
-    {% block page_item_content %}
-      {% if page.content %}
-        {% if editor %}
-        <div>
-          {{page.content|striptags|truncate}}
+{% block page_item %}
+    {% block content %}
+      <div class="dataset-content fair3r-dataset-card" onclick="window.location.href='{{ url }}';" style="cursor: pointer;">
+        <div class="fair3r-dataset-header">
+          <!-- Page Logo/Image -->
+          {% if page.image %}
+            <div class="fair3r-dataset-icon" style="width: 60px; height: 60px; overflow: hidden; border-radius: 4px; flex-shrink: 0;">
+              <img src="{{ page.image }}" alt="{{ title }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          {% else %}
+            <div class="fair3r-dataset-icon">
+              <i class="fa fa-file-text" style="color: var(--fair3r-secondary-color); font-size: 24px;"></i>
+            </div>
+          {% endif %}
+          
+          <!-- Page Content -->
+          <div class="fair3r-dataset-info">
+            {% block heading %}
+              <h2 class="dataset-heading">
+                {% block heading_title %}
+                  <span class="fair3r-dataset-title">{{title|truncate(80)}}</span>
+                {% endblock %}
+                {% block heading_meta %}
+                  {% if page.publish_date %}
+                    <small class="date text-muted">{{ h.render_datetime(page.publish_date) }}</small>
+                  {% endif %}
+                {% endblock %}
+              </h2>
+            {% endblock %}
+            {% block notes %}
+              {% if content %}
+                <div class="fair3r-dataset-notes">{{ content|striptags|truncate(180)|urlize }}</div>
+              {% else %}
+                <p class="empty">{{ _('This page currently has no content') }}</p>
+              {% endif %}
+            {% endblock %}
+          </div>
         </div>
-        {% else %}
-          {{ h.markdown_extract(page.content) }}
-        {% endif %}
-      {% else %}
-        <p class="empty">{{ _('This page currently has no content') }}</p>
-      {% endif %}
+      </div>
     {% endblock %}
-  </div>
-</div>
-
+{% endblock %}

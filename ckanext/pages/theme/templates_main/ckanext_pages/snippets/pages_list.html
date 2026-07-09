@@ -6,7 +6,7 @@
 <h1 class="page-heading page-list-header">{{ title or "Blog" if type == "blog" else "Pages" }}</h1>
 
 {% if pages %}
-  <div class="page-list">
+  <div class="fair3r-dataset-list">
     {% set editor = h.pages_get_wysiwyg_editor() %}
 
     {% for page in pages %}
