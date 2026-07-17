@@ -1,17 +1,18 @@
-# Translations template for ckanext-pages.
-# Copyright (C) 2026 ORGANIZATION
-# This file is distributed under the same license as the ckanext-pages project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+# French translations for ckanext-pages.
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the ckanext-pages
+# project.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ckanext-pages 0.6.0\n"
+"Project-Id-Version: ckanext-pages 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-07-09 08:33+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2026-07-02 12:00+0000\n"
+"Last-Translator: FAIR3R <debannen@igbmc.fr>\n"
+"Language: fr\n"
+"Language-Team: French <fr@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,69 +26,71 @@ msgstr ""
 #: ckanext/pages/actions.py:329 ckanext/pages/actions.py:337
 #: ckanext/pages/actions.py:346
 msgid "Not authorized to see this page"
-msgstr ""
+msgstr "Non autorisé à consulter cette page"
 
 #: ckanext/pages/auth.py:53
 #, python-format
 msgid "User %s not authorized to read this page"
-msgstr ""
+msgstr "L'utilisateur %s n'est pas autorisé à lire cette page"
 
 #: ckanext/pages/plugin.py:193
 msgid "Free Text"
-msgstr ""
+msgstr "Texte libre"
 
 #: ckanext/pages/utils.py:57
 msgid "Unauthorized to create or edit a page"
-msgstr ""
+msgstr "Non autorisé à créer ou modifier une page"
 
 #: ckanext/pages/utils.py:144
 msgid "ERROR: View not found {view_id}"
-msgstr ""
+msgstr "ERREUR : vue introuvable {view_id}"
 
 #: ckanext/pages/utils.py:158
 msgid "Your browser does not support iframes."
-msgstr ""
+msgstr "Votre navigateur ne prend pas en charge les iframes."
 
-#: ckanext/pages/utils.py:202 ckanext/pages/utils.py:217 ckanext/pages/utils.py:235
+#: ckanext/pages/utils.py:202 ckanext/pages/utils.py:217
+#: ckanext/pages/utils.py:235
 msgid "Unauthorized to view this page"
-msgstr ""
+msgstr "Non autorisé à consulter cette page"
 
-#: ckanext/pages/utils.py:207 ckanext/pages/utils.py:270 ckanext/pages/utils.py:426
+#: ckanext/pages/utils.py:207 ckanext/pages/utils.py:270
+#: ckanext/pages/utils.py:426
 msgid "Page Not Found"
-msgstr ""
+msgstr "Page introuvable"
 
 #: ckanext/pages/utils.py:228
 msgid "Revision not found"
-msgstr ""
+msgstr "Révision introuvable"
 
 #: ckanext/pages/utils.py:272 ckanext/pages/utils.py:428
 msgid "Unauthorized to delete page"
-msgstr ""
+msgstr "Non autorisé à supprimer la page"
 
 #: ckanext/pages/utils.py:274
 msgid "Group not found"
-msgstr ""
+msgstr "Groupe introuvable"
 
 #: ckanext/pages/utils.py:280
 msgid "Only Posting is availiable"
-msgstr ""
+msgstr "Seule la publication est disponible"
 
 #: ckanext/pages/utils.py:287
 #, python-format
 msgid "Unauthorized to upload file %s"
-msgstr ""
+msgstr "Non autorisé à téléverser le fichier %s"
 
 #: ckanext/pages/utils.py:310 ckanext/pages/utils.py:430
 msgid "{} not found"
-msgstr ""
+msgstr "Page introuvable"
 
 #: ckanext/pages/utils.py:312
 msgid "Unauthorized to read {} {}"
-msgstr ""
+msgstr "Non autorisé à lire le groupe %s"
 
 #: ckanext/pages/validators.py:16
 msgid "Page name already exists in database"
-msgstr ""
+msgstr "Le nom de la page existe déjà dans la base de données"
 
 #: ckanext/pages/theme/templates_group/group/read_base.html:6
 #: ckanext/pages/theme/templates_group/group/read_base.html:8
@@ -104,35 +107,37 @@ msgstr ""
 #: ckanext/pages/theme/templates_organization/organization/read_base.html:6
 #: ckanext/pages/theme/templates_organization/organization/read_base.html:8
 msgid "Pages"
-msgstr ""
+msgstr "Pages"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog.html:40
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_edit_base.html:9
 #: ckanext/pages/theme/templates_main/header.html:10
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base.html:15
 msgid "What are Pages?"
-msgstr ""
+msgstr "Qu'est-ce que les pages ?"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base.html:18
 msgid ""
-"<p>Pages are a simple way to add extra pages to your ckan instance. You can "
-"assign an order to them.</p>"
+"<p>Pages are a simple way to add extra pages to your ckan instance. You "
+"can assign an order to them.</p>"
 msgstr ""
+" <p>Les pages sont un moyen simple d'ajouter des pages supplémentaires à "
+"votre instance CKAN. Vous pouvez leur attribuer un ordre.</p> "
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:39
 msgid "Add Blog Article"
-msgstr ""
+msgstr "Ajouter un article de blog"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:41
 msgid "Edit Blog Article"
-msgstr ""
+msgstr "Modifier l'article de blog"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:44
 msgid "eg. Blog Article Title"
-msgstr ""
+msgstr "ex. : titre de l'article de blog"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:47
 #: ckanext/pages/theme/templates_main/ckanext_pages/group_page_list.html:7
@@ -142,7 +147,7 @@ msgstr ""
 #: ckanext/pages/theme/templates_main/ckanext_pages/pages_list.html:6
 #: ckanext/pages/theme/templates_main/ckanext_pages/pages_list.html:8
 msgid "Add page"
-msgstr ""
+msgstr "Ajouter une page"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:49
 #: ckanext/pages/theme/templates_main/ckanext_pages/group_page.html:8
@@ -150,95 +155,95 @@ msgstr ""
 #: ckanext/pages/theme/templates_main/ckanext_pages/organization_page.html:8
 #: ckanext/pages/theme/templates_main/ckanext_pages/organization_page.html:10
 msgid "Edit page"
-msgstr ""
+msgstr "Modifier la page"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:52
 msgid "eg. Page Title"
-msgstr ""
+msgstr "ex. : titre de la page"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:61
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:65
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:67
 msgid "Publish Date"
-msgstr ""
+msgstr "Date de publication"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:67
 msgid "2021-04-23"
-msgstr ""
+msgstr "2021-04-23"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:76
 msgid "Visibility"
-msgstr ""
+msgstr "Visibilité"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:79
 msgid "Private"
-msgstr ""
+msgstr "Privé"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:79
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:88
 msgid "Header Order"
-msgstr ""
+msgstr "Ordre dans le menu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:91
 msgid "Not in Menu"
-msgstr ""
+msgstr "Absent du menu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:106
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:115
 msgid "Content"
-msgstr ""
+msgstr "Contenu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:106
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:115
 msgid "Enter content here"
-msgstr ""
+msgstr "Saisissez le contenu ici"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:113
 msgid "My content"
-msgstr ""
+msgstr "Mon contenu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:123
 #: ckanext/pages/theme/templates_main/ckanext_pages/confirm_delete.html:15
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:124
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:129
 msgid "Are you sure you want to delete this Page?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer cette page ?"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:130
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:134
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog.html:10
 #: ckanext/pages/theme/templates_main/ckanext_pages/page.html:11
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog.html:11
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions_preview.html:6
 #: ckanext/pages/theme/templates_main/ckanext_pages/page.html:12
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions_preview.html:6
 msgid "Revisions"
-msgstr ""
+msgstr "Révisions"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog.html:29
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions_preview.html:23
@@ -248,83 +253,83 @@ msgstr ""
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions_preview.html:23
 #: ckanext/pages/theme/templates_main/ckanext_pages/snippets/page_item.html:37
 msgid "This page currently has no content"
-msgstr ""
+msgstr "Cette page n'a actuellement aucun contenu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog.html:57
 msgid "More"
-msgstr ""
+msgstr "Plus"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_edit.html:3
 msgid "Edit Article"
-msgstr ""
+msgstr "Modifier l'article"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_edit_base.html:3
 msgid "Blog Articles"
-msgstr ""
+msgstr "Articles de blog"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_edit_base.html:12
 msgid "<p>Add blog articles to CKAN here.</p>"
-msgstr ""
+msgstr " <p>Ajoutez ici des articles de blog à CKAN.</p> "
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_list.html:6
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_list.html:8
 msgid "Add Article"
-msgstr ""
+msgstr "Ajouter un article"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions.html:16
 msgid "View"
-msgstr ""
+msgstr "Afficher"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions.html:28
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions.html:31
 msgid "{actor} updated page at {date}"
-msgstr ""
+msgstr "{actor} a mis à jour la page le {date}"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions.html:32
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions.html:35
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions.html:34
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions.html:37
 msgid "Restore"
-msgstr ""
+msgstr "Restaurer"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions.html:36
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions.html:39
 msgid "Active Revision"
-msgstr ""
+msgstr "Révision active"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/blog_revisions.html:48
 msgid "This blog currently has no revisions"
-msgstr ""
+msgstr "Cette page n'a actuellement aucun contenu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/confirm_delete.html:3
 #: ckanext/pages/theme/templates_main/ckanext_pages/confirm_delete.html:16
 msgid "Confirm Delete"
-msgstr ""
+msgstr "Confirmer la suppression"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/confirm_delete.html:11
 msgid "Are you sure you want to delete page - {name}?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer la page - {name} ?"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_edit.html:3
 msgid "Edit Page"
-msgstr ""
+msgstr "Modifier la page"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions.html:17
 msgid "View Page"
-msgstr ""
+msgstr "Modifier la page"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/page_revisions.html:51
 msgid "This page currently has no revisions"
-msgstr ""
+msgstr "Cette page n'a actuellement aucun contenu"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/snippets/pages_list.html:41
 msgid "There are currently no blog articles here"
-msgstr ""
+msgstr "Il n'y a actuellement aucun article de blog ici"
 
 #: ckanext/pages/theme/templates_main/ckanext_pages/snippets/pages_list.html:43
 msgid "There are currently no pages here"
-msgstr ""
+msgstr "Il n'y a actuellement aucune page ici"
 

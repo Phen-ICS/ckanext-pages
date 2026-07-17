@@ -190,7 +190,7 @@ class TextBoxView(p.SingletonPlugin):
 
         return {
             "name": "wysiwyg",
-            "title": "Free Text",
+            "title": tk._("Free Text"),
             "icon": "pencil",
             "iframed": False,
             "schema": schema,
