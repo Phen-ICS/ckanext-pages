@@ -1,6 +1,7 @@
 import ckan.plugins as p
-from ckanext.pages.validators import page_name_validator, not_empty_if_blog
+
 from ckanext.pages.interfaces import IPagesSchema
+from ckanext.pages.validators import not_empty_if_blog, page_name_validator
 
 
 def default_pages_schema():

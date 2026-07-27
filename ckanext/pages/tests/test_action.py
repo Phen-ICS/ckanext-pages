@@ -1,7 +1,7 @@
-import pytest
 import datetime
 from collections import OrderedDict
 
+import pytest
 from ckan.tests import factories, helpers
 
 
@@ -84,13 +84,12 @@ class TestPagesActions:
         assert page["content"] == "This is a test content updated"
 
         sorted_revisions = OrderedDict(
-            reversed(
-                sorted(
-                    revisions.items(),
-                    key=lambda x: datetime.datetime.timestamp(
-                        datetime.datetime.fromisoformat(x[1]["created"])
-                    ),
-                )
+            sorted(
+                revisions.items(),
+                key=lambda x: datetime.datetime.timestamp(
+                    datetime.datetime.fromisoformat(x[1]["created"])
+                ),
+                reverse=True,
             )
         )
 

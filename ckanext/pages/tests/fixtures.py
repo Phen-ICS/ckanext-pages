@@ -1,7 +1,6 @@
 import pytest
-
-import ckan.model as model
 import sqlalchemy as sa
+from ckan import model
 
 from ckanext.pages import db
 

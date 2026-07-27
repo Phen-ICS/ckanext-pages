@@ -1,14 +1,14 @@
 import datetime
-import uuid
 import json
-
+import uuid
 from collections import OrderedDict
-from six import text_type
+
 import sqlalchemy as sa
+from six import text_type
 from sqlalchemy import Column, types
-from sqlalchemy.orm import class_mapper
-from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.ext.mutable import MutableDict
+from sqlalchemy.orm import class_mapper
 
 try:
     from sqlalchemy.engine import Row
@@ -85,13 +85,12 @@ class Page(DomainObject, BaseModel):
     def get_ordered_revisions(self):
         # Compare timestamps to avoid different datetime formats error
         return OrderedDict(
-            reversed(
-                sorted(
-                    self.revisions.items(),
-                    key=lambda x: datetime.datetime.timestamp(
-                        datetime.datetime.fromisoformat(x[1]["created"])
-                    ),
-                )
+            sorted(
+                self.revisions.items(),
+                key=lambda x: datetime.datetime.timestamp(
+                    datetime.datetime.fromisoformat(x[1]["created"])
+                ),
+                reverse=True,
             )
         )
 
@@ -116,11 +115,7 @@ def table_dictize(obj, context, **kw):
         value = getattr(obj, name)
         if name == "extras" and value:
             result_dict.update(json.loads(value))
-        elif value is None:
-            result_dict[name] = value
-        elif isinstance(value, dict):
-            result_dict[name] = value
-        elif isinstance(value, int):
+        elif value is None or isinstance(value, (dict, int)):
             result_dict[name] = value
         elif isinstance(value, datetime.datetime):
             result_dict[name] = value.isoformat()

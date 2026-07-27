@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-import ckanext.pages.utils as utils
+from ckanext.pages import utils
 
 pages = Blueprint("pages", __name__)
 

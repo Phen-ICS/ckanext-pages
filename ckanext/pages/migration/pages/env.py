@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import with_statement
-from alembic import context
-from sqlalchemy import engine_from_config, pool
-from logging.config import fileConfig
-from ckan.model.meta import metadata
-
 import os
+from logging.config import fileConfig
+
+from alembic import context
+from ckan.model.meta import metadata
+from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -54,7 +51,7 @@ def run_migrations_offline():
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        version_table="{}_alembic_version".format(name),
+        version_table=f"{name}_alembic_version",
         include_object=include_object,
     )
 
@@ -79,7 +76,7 @@ def run_migrations_online():
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            version_table="{}_alembic_version".format(name),
+            version_table=f"{name}_alembic_version",
             include_object=include_object,
         )
 
