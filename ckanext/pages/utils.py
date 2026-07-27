@@ -125,9 +125,7 @@ def _inject_views_into_page(_page):
             if not height.endswith("%") and not height.endswith("px"):
                 height = height + "px"
             align = element.attrib.pop("align", "none")
-            style = (
-                f"width: {width}; height: {height}; float: {align}; overflow: auto; vertical-align:middle; position:relative"
-            )
+            style = f"width: {width}; height: {height}; float: {align}; overflow: auto; vertical-align:middle; position:relative"
             element.attrib["style"] = style
             element.attrib["class"] = "pages-embed"
             view = tk.get_action("resource_view_show")({}, {"id": iframe_src[-36:]})
@@ -384,9 +382,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
         "group_dict": group_dict,
     }
 
-    return tk.render(
-        f"ckanext_pages/{group_type}_page_edit.html", extra_vars=vars
-    )
+    return tk.render(f"ckanext_pages/{group_type}_page_edit.html", extra_vars=vars)
 
 
 def group_delete(id, group_type, page):

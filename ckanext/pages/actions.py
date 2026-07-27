@@ -210,16 +210,12 @@ def pages_upload(context, data_dict):
     try:
         upload.upload(max_image_size)
     except p.toolkit.ValidationError:
-        message = (
-            f"Can't upload the file, size is too large. (Max allowed is {max_image_size}mb)"
-        )
+        message = f"Can't upload the file, size is too large. (Max allowed is {max_image_size}mb)"
         return {"uploaded": 0, "error": {"message": message}}
 
     image_url = data_dict.get("image_url")
     if image_url and image_url[0:6] not in {"http:/", "https:"}:
-        image_url = h.url_for_static(
-            f"uploads/page_images/{image_url}", qualified=True
-        )
+        image_url = h.url_for_static(f"uploads/page_images/{image_url}", qualified=True)
     return {"url": image_url, "fileName": upload.filename, "uploaded": 1}
 
 

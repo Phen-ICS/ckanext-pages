@@ -46,9 +46,7 @@ def build_pages_nav_main(*args):
         type_ = "blog" if page["page_type"] == "blog" else "pages"
         name = quote(page["name"])
         title = html_escape(page["title"])
-        link = tk.h.literal(
-            f'<a href="{root_path}/{type_}/{name}">{title}</a>'
-        )
+        link = tk.h.literal(f'<a href="{root_path}/{type_}/{name}">{title}</a>')
         if page["name"] == page_name:
             li = tk.literal('<li class="active">') + link + tk.literal("</li>")
         else:
