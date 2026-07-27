@@ -1,6 +1,5 @@
 import ckan.plugins as p
-
-import ckan.authz as authz
+from ckan import authz
 
 from ckanext.pages import db
 

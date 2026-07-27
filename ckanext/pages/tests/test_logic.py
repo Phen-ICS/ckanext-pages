@@ -1,13 +1,12 @@
-# encoding: utf-8
 
 try:
     from unittest import mock
 except ImportError:
-    import mock
-import pytest
-from collections import OrderedDict
+    from unittest import mock
 import datetime
+from collections import OrderedDict
 
+import pytest
 from ckan.plugins import toolkit
 from ckan.tests import factories, helpers
 
@@ -153,9 +152,9 @@ class TestPages:
         response = app.post(
             url=toolkit.url_for("pages_edit", page=page),
             params={
-                "title": "Tïtlé".encode("utf-8"),
+                "title": "Tïtlé".encode(),
                 "name": "page_unicode",
-                "content": "Çöñtéñt".encode("utf-8"),
+                "content": "Çöñtéñt".encode(),
                 "order": 1,
                 "private": False,
             },
@@ -277,7 +276,7 @@ class TestPages:
 
         page = helpers.call_action("ckanext_pages_show", {}, page="page_name")
 
-        revision_id = [i for i in page["revisions"]][0]
+        revision_id = next(iter(page["revisions"]))
 
         response = app.get(
             toolkit.url_for(
@@ -350,13 +349,12 @@ class TestPages:
         revisions = page["revisions"]
 
         sorted_revisions = OrderedDict(
-            reversed(
-                sorted(
-                    revisions.items(),
-                    key=lambda x: datetime.datetime.timestamp(
-                        datetime.datetime.fromisoformat(x[1]["created"])
-                    ),
-                )
+            sorted(
+                revisions.items(),
+                key=lambda x: datetime.datetime.timestamp(
+                    datetime.datetime.fromisoformat(x[1]["created"])
+                ),
+                reverse=True,
             )
         )
 
@@ -470,7 +468,7 @@ class TestPages:
 
         page = helpers.call_action("ckanext_pages_show", {}, page="blog_name")
 
-        revision_id = [i for i in page["revisions"]][0]
+        revision_id = next(iter(page["revisions"]))
 
         response = app.get(
             toolkit.url_for(
@@ -547,13 +545,12 @@ class TestPages:
         revisions = page["revisions"]
 
         sorted_revisions = OrderedDict(
-            reversed(
-                sorted(
-                    revisions.items(),
-                    key=lambda x: datetime.datetime.timestamp(
-                        datetime.datetime.fromisoformat(x[1]["created"])
-                    ),
-                )
+            sorted(
+                revisions.items(),
+                key=lambda x: datetime.datetime.timestamp(
+                    datetime.datetime.fromisoformat(x[1]["created"])
+                ),
+                reverse=True,
             )
         )
 

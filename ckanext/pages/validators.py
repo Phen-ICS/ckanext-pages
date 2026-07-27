@@ -1,5 +1,6 @@
-import ckan.plugins as p
 import ckan.lib.navl.dictization_functions as df
+import ckan.plugins as p
+
 from ckanext.pages import db
 
 
@@ -18,6 +19,5 @@ def page_name_validator(key, data, errors, context):
 
 def not_empty_if_blog(key, data, errors, context):
     value = data.get(key)
-    if data.get(("page_type",), "") == "blog":
-        if value is df.missing or not value:
-            errors[key].append("Publish Date Must be supplied")
+    if data.get(("page_type",), "") == "blog" and (value is df.missing or not value):
+        errors[key].append("Publish Date Must be supplied")

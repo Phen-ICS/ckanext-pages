@@ -1,24 +1,21 @@
-# encoding: utf-8
 
-import io
 import os.path
 import re
 
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 # Extract version
 HERE = os.path.abspath(os.path.dirname(__file__))
 INIT_PY = os.path.join(HERE, "ckanext", "pages", "__init__.py")
 version = None
-with io.open(INIT_PY) as f:
+with open(INIT_PY) as f:
     for line in f:
         m = re.match(r'__version__\s*=\s*u?[\'"](.*)[\'"]', line)
         if m:
             version = m.groups()[0]
             break
 if version is None:
-    raise RuntimeError('Could not extract version from "{}".'.format(INIT_PY))
+    raise RuntimeError(f'Could not extract version from "{INIT_PY}".')
 
 
 setup(

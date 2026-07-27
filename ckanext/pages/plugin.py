@@ -1,19 +1,13 @@
 import logging
 from html import escape as html_escape
 
-from six.moves.urllib.parse import quote
-
-from ckan.plugins import toolkit as tk
-
 import ckan.plugins as p
 from ckan.lib.helpers import build_nav_main as core_build_nav_main
-
-from ckanext.pages import actions
-from ckanext.pages import auth
-from ckanext.pages import blueprint
-
 from ckan.lib.plugins import DefaultTranslation
+from ckan.plugins import toolkit as tk
+from six.moves.urllib.parse import quote
 
+from ckanext.pages import actions, auth, blueprint
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +47,7 @@ def build_pages_nav_main(*args):
         name = quote(page["name"])
         title = html_escape(page["title"])
         link = tk.h.literal(
-            '<a href="{}/{}/{}">{}</a>'.format(root_path, type_, name, title)
+            f'<a href="{root_path}/{type_}/{name}">{title}</a>'
         )
         if page["name"] == page_name:
             li = tk.literal('<li class="active">') + link + tk.literal("</li>")

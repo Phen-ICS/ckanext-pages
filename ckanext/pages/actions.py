@@ -1,20 +1,17 @@
 import datetime
 import json
-
-from ckan.model.types import make_uuid
-from ckan import model
-import ckan.plugins as p
-import ckan.lib.navl.dictization_functions as df
-import ckan.lib.uploader as uploader
-import ckan.lib.helpers as h
-from ckan.plugins import toolkit as tk
 from html.parser import HTMLParser
 
-from ckanext.pages.logic.schema import update_pages_schema
-
-import ckan.authz as authz
+import ckan.lib.helpers as h
+import ckan.lib.navl.dictization_functions as df
+import ckan.plugins as p
+from ckan import authz, model
+from ckan.lib import uploader
+from ckan.model.types import make_uuid
+from ckan.plugins import toolkit as tk
 
 from ckanext.pages import db
+from ckanext.pages.logic.schema import update_pages_schema
 
 
 class HTMLFirstImage(HTMLParser):
@@ -181,7 +178,9 @@ def _pages_update(context, data_dict):
     session.commit()
 
 
-def _remove_keys_revision_from_dict(data_dict, keys=["current"]):
+def _remove_keys_revision_from_dict(data_dict, keys=None):
+    if keys is None:
+        keys = ["current"]
     return {
         id: {key: data_dict[id][key] for key in data_dict[id] if key not in keys}
         for id in data_dict
@@ -212,16 +211,14 @@ def pages_upload(context, data_dict):
         upload.upload(max_image_size)
     except p.toolkit.ValidationError:
         message = (
-            "Can't upload the file, size is too large. (Max allowed is {0}mb)".format(
-                max_image_size
-            )
+            f"Can't upload the file, size is too large. (Max allowed is {max_image_size}mb)"
         )
         return {"uploaded": 0, "error": {"message": message}}
 
     image_url = data_dict.get("image_url")
     if image_url and image_url[0:6] not in {"http:/", "https:"}:
         image_url = h.url_for_static(
-            "uploads/page_images/%s" % image_url, qualified=True
+            f"uploads/page_images/{image_url}", qualified=True
         )
     return {"url": image_url, "fileName": upload.filename, "uploaded": 1}
 

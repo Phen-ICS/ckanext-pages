@@ -1,10 +1,9 @@
-import six
-
 import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.plugins as p
 import ckan.plugins.toolkit as tk
-import ckan.logic as logic
-import ckan.lib.helpers as helpers
+import six
+from ckan import logic
+from ckan.lib import helpers
 
 from ckanext.pages.db import Page
 
@@ -43,8 +42,7 @@ def pages_edit(
 
     page_dict = None
     if page:
-        if page.startswith("/"):
-            page = page[1:]
+        page = page.removeprefix("/")
         page_dict = tk.get_action("ckanext_pages_show")(
             context={}, data_dict={"org_id": None, "page": page}
         )
@@ -73,8 +71,8 @@ def pages_edit(
             tk.h.flash_error(error_summary)
             return pages_edit(page, data, errors, error_summary, page_type=page_type)
 
-        endpoint = "show" if page_type in ("pages", "page") else "%s_show" % page_type
-        return tk.redirect_to("pages.%s" % endpoint, page=page_dict["name"])
+        endpoint = "show" if page_type in ("pages", "page") else f"{page_type}_show"
+        return tk.redirect_to(f"pages.{endpoint}", page=page_dict["name"])
 
     if not data:
         data = page_dict
@@ -92,7 +90,7 @@ def pages_edit(
         "form_snippet": form_snippet,
     }
 
-    return tk.render("ckanext_pages/%s_edit.html" % page_type, extra_vars=vars)
+    return tk.render(f"ckanext_pages/{page_type}_edit.html", extra_vars=vars)
 
 
 def _inject_views_into_page(_page):
@@ -128,8 +126,7 @@ def _inject_views_into_page(_page):
                 height = height + "px"
             align = element.attrib.pop("align", "none")
             style = (
-                "width: %s; height: %s; float: %s; overflow: auto; vertical-align:middle; position:relative"
-                % (width, height, align)
+                f"width: {width}; height: {height}; float: {align}; overflow: auto; vertical-align:middle; position:relative"
             )
             element.attrib["style"] = style
             element.attrib["class"] = "pages-embed"
@@ -141,10 +138,10 @@ def _inject_views_into_page(_page):
             package_id = context["resource"].resource_group.package_id
             package = tk.get_action("package_show")(context, {"id": package_id})
         except tk.ObjectNotFound:
-            error = _("ERROR: View not found {view_id}".format(view_id=iframe_src))
+            error = _("ERROR: View not found %s") % iframe_src
 
         if error:
-            resource_view_html = "<h4> %s </h4>" % error
+            resource_view_html = f"<h4> {error} </h4>"
         elif not helpers.resource_view_is_iframed(view):
             resource_view_html = helpers.rendered_resource_view(view, resource, package)
         else:
@@ -157,10 +154,8 @@ def _inject_views_into_page(_page):
             )
             message = _("Your browser does not support iframes.")
             resource_view_html = (
-                '<iframe src="{src}" frameborder="0" width="100%" height="100%" '
-                'style="display:block"> <p>{message}</p> </iframe>'.format(
-                    src=src, message=message
-                )
+                f'<iframe src="{src}" frameborder="0" width="100%" height="100%" '
+                f'style="display:block"> <p>{message}</p> </iframe>'
             )
 
         view_element = lxml.html.fromstring(resource_view_html)
@@ -180,8 +175,7 @@ def _inject_views_into_page(_page):
 
 def pages_show(page=None, page_type="page"):
     tk.c.page_type = page_type
-    if page.startswith("/"):
-        page = page[1:]
+    page = page.removeprefix("/")
     if not page:
         return pages_list_pages(page_type)
     _page = tk.get_action("ckanext_pages_show")(
@@ -192,7 +186,7 @@ def pages_show(page=None, page_type="page"):
     tk.c.page = _page
     _inject_views_into_page(_page)
 
-    return tk.render("ckanext_pages/%s.html" % page_type)
+    return tk.render(f"ckanext_pages/{page_type}.html")
 
 
 def pages_revisions(page, page_type="page"):
@@ -207,7 +201,7 @@ def pages_revisions(page, page_type="page"):
         return tk.abort(404, _("Page Not Found"))
     tk.c.page_type = page_type
     tk.c.page = _page
-    return tk.render("ckanext_pages/%s_revisions.html" % page_type)
+    return tk.render(f"ckanext_pages/{page_type}_revisions.html")
 
 
 def pages_revisions_preview(page, revision, page_type="page"):
@@ -221,7 +215,7 @@ def pages_revisions_preview(page, revision, page_type="page"):
     tk.c.page = _page
     try:
         return tk.render(
-            "ckanext_pages/%s_revisions_preview.html" % page_type,
+            f"ckanext_pages/{page_type}_revisions_preview.html",
             extra_vars={"revision": _page.revisions[revision]},
         )
     except KeyError:
@@ -245,27 +239,24 @@ def pages_revision_restore(page, revision, page_type="page"):
         tk.h.flash_success(f"Content from revision created on {timestamp} set.")
     except TypeError:
         tk.h.flash_error(
-            """Bad values, please make sure that provided values exist:
-                Page name - '{name}', Revision version - '{rev}'""".format(
-                name=page, rev=revision
-            )
+            f"""Bad values, please make sure that provided values exist:
+                Page name - '{page}', Revision version - '{revision}'"""
         )
 
-    endpoint = "show" if page_type in ("pages", "page") else "%s_show" % page_type
-    return tk.redirect_to("pages.%s" % endpoint, page=page)
+    endpoint = "show" if page_type in ("pages", "page") else f"{page_type}_show"
+    return tk.redirect_to(f"pages.{endpoint}", page=page)
 
 
 def pages_delete(page, page_type="pages"):
-    if page.startswith("/"):
-        page = page[1:]
+    page = page.removeprefix("/")
     if "cancel" in tk.request.args:
-        return tk.redirect_to("pages.%s_edit" % page_type, page=page)
+        return tk.redirect_to(f"pages.{page_type}_edit", page=page)
 
     try:
         if tk.request.method == "POST":
             tk.get_action("ckanext_pages_delete")({}, {"page": page})
             endpoint = page_type + "_index"
-            return tk.redirect_to("pages.%s" % endpoint)
+            return tk.redirect_to(f"pages.{endpoint}")
         else:
             return tk.abort(404, _("Page Not Found"))
     except tk.NotAuthorized:
@@ -276,7 +267,7 @@ def pages_delete(page, page_type="pages"):
 
 
 def pages_upload():
-    if not tk.request.method == "POST":
+    if tk.request.method != "POST":
         tk.abort(409, _("Only Posting is availiable"))
     data_dict = logic.clean_dict(
         dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(tk.request.files)))
@@ -294,7 +285,7 @@ def group_list_pages(id, group_type, group_dict=None):
         context={}, data_dict={"org_id": tk.group_dict["id"]}
     )
     return tk.render(
-        "ckanext_pages/{}_page_list.html".format(group_type),
+        f"ckanext_pages/{group_type}_page_list.html",
         extra_vars={"group_type": group_type, "group_dict": group_dict},
     )
 
@@ -307,9 +298,9 @@ def _template_setup_group(id, group_type):
     try:
         tk.group_dict = tk.get_action(action)(context, {"id": id})
     except tk.ObjectNotFound:
-        tk.abort(404, _("{} not found".format(group_type.title())))
+        tk.abort(404, (_("%s not found") % group_type.title()))
     except tk.NotAuthorized:
-        tk.abort(401, _("Unauthorized to read {} {}".format(group_type, id)))
+        tk.abort(401, (_("Unauthorized to read %s %s") % (group_type, id)))
 
 
 def group_show(id, group_type, page=None):
@@ -337,7 +328,7 @@ def group_show(id, group_type, page=None):
     tk.c.page = _page
 
     return tk.render(
-        "ckanext_pages/{}_page.html".format(group_type),
+        f"ckanext_pages/{group_type}_page.html",
         {"group_type": group_type, "group_dict": group_dict},
     )
 
@@ -348,8 +339,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
 
     page_dict = None
     if page:
-        if page.startswith("/"):
-            page = page[1:]
+        page = page.removeprefix("/")
         page_dict = tk.get_action("ckanext_pages_show")(
             context={}, data_dict={"org_id": tk.group_dict["id"], "page": page}
         )
@@ -371,7 +361,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
             error_summary = e.error_summary
             return group_edit(id, group_type, page, data, errors, error_summary)
 
-        endpoint = "pages.{}_pages_show".format(group_type)
+        endpoint = f"pages.{group_type}_pages_show"
         return tk.redirect_to(endpoint, id=id, page=page_dict["name"])
 
     if not data:
@@ -395,7 +385,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
     }
 
     return tk.render(
-        "ckanext_pages/{}_page_edit.html".format(group_type), extra_vars=vars
+        f"ckanext_pages/{group_type}_page_edit.html", extra_vars=vars
     )
 
 
@@ -403,12 +393,11 @@ def group_delete(id, group_type, page):
 
     _template_setup_group(id, group_type)
 
-    if page.startswith("/"):
-        page = page[1:]
+    page = page.removeprefix("/")
 
     if "cancel" in tk.request.args:
         return tk.redirect_to(
-            "pages.%s_edit" % group_type, id=tk.group_dict["name"], page=page
+            f"pages.{group_type}_edit", id=tk.group_dict["name"], page=page
         )
 
     try:
@@ -420,14 +409,14 @@ def group_delete(id, group_type, page):
             )
             action = tk.get_action(action)
             action({}, {"org_id": tk.group_dict["id"], "page": page})
-            endpoint = "pages.{}_pages_index".format(group_type)
+            endpoint = f"pages.{group_type}_pages_index"
             return tk.redirect_to(endpoint, id=id)
         else:
             tk.abort(404, _("Page Not Found"))
     except tk.NotAuthorized:
         tk.abort(401, _("Unauthorized to delete page"))
     except tk.ObjectNotFound:
-        tk.abort(404, _("{} not found".format(group_type.title())))
+        tk.abort(404, (_("%s not found") % group_type.title()))
 
     context = {"for_view": True}
 
