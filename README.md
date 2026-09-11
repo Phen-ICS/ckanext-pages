@@ -18,8 +18,16 @@ Use `pip` to install this plugin. This example installs it in `/home/www-data/py
 
 ```
 source /usr/lib/ckan/default/bin/activate
-git clone git@serv-gitlab.igbmc.u-strasbg.fr:ics/ckanext-pages.git
-pip install -e
+pip install ckanext-fair3r-pages
+```
+
+Or, to install from source:
+
+```
+source /usr/lib/ckan/default/bin/activate
+git clone <url-of-this-repository>
+cd ckanext-pages
+pip install -e .
 ```
 
 Make sure to add `pages` to `ckan.plugins` in your config file:
