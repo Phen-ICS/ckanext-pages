@@ -18,7 +18,7 @@ if version is None:
 
 
 setup(
-    name="ckanext-pages",
+    name="ckanext-fair3r-pages",
     version=version,
     description="Basic CMS extension for ckan",
     long_description="",
