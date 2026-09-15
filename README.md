@@ -12,6 +12,8 @@ Tested on CKAN 2.9 and 2.10.
 
 Note: For CKAN 2.7 and 2.8 use v0.3.7 or older versions.
 
+> This is a fork of [ckan/ckanext-pages](https://github.com/ckan/ckanext-pages), adapted for the [Fair3R](https://fair3r.fr) CKAN portal (CNRS/IGBMC).
+
 ## Installation
 
 Use `pip` to install this plugin. This example installs it in `/home/www-data/pyenv`, assuming you have [setup a virtualenv](http://docs.ckan.org/en/latest/maintaining/installing/install-from-source.html#install-ckan-into-a-python-virtual-environment) there:
