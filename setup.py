@@ -16,12 +16,15 @@ with open(INIT_PY) as f:
 if version is None:
     raise RuntimeError(f'Could not extract version from "{INIT_PY}".')
 
+with open(os.path.join(HERE, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
     name="ckanext-fair3r-pages",
     version=version,
     description="Basic CMS extension for ckan",
-    long_description="",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     classifiers=[
         # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 5 - Production/Stable",
