@@ -2,13 +2,10 @@ from ckan.plugins.interfaces import Interface
 
 
 class IPagesSchema(Interface):
-    """
-    Interface to define custom schemas.
-    """
+    """Interface to define custom schemas."""
 
     def update_pages_schema(self, schema):
-        """
-        Return a schema with the fields of the pages.
+        """Return a schema with the fields of the pages.
 
         ckanext-pages will use the returned schema to define the fields of the
         pages and to validate them before storing them.

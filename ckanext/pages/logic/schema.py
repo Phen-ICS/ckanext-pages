@@ -28,8 +28,7 @@ def default_pages_schema():
 
 
 def update_pages_schema():
-    """
-    Returns the schema for the pages fields that can be added by other
+    """Returns the schema for the pages fields that can be added by other
     extensions.
 
     By default these are the keys of the
@@ -42,7 +41,6 @@ def update_pages_schema():
     converter functions to be applied to those fields
     :rtype: dictionary
     """
-
     schema = default_pages_schema()
     for plugin in p.PluginImplementations(IPagesSchema):
         if hasattr(plugin, "update_pages_schema"):

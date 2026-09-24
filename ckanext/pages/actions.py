@@ -10,7 +10,8 @@ from ckan.lib import uploader
 from ckan.model.types import make_uuid
 from ckan.plugins import toolkit as tk
 
-from ckanext.pages import db, config as cfg
+from ckanext.pages import config as cfg
+from ckanext.pages import db
 from ckanext.pages.logic.schema import update_pages_schema
 
 
@@ -193,7 +194,6 @@ def pages_upload(context, data_dict):
      - https://ckeditor.com/docs/ckeditor4/latest/guide/dev_file_upload.html#server-side-configuration
 
     """
-
     try:
         p.toolkit.check_access("ckanext_pages_upload", context, data_dict)
     except p.toolkit.NotAuthorized:

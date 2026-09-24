@@ -1,17 +1,14 @@
 import logging
 from html import escape as html_escape
-
 from urllib.parse import quote
-
-from ckan.plugins import toolkit as tk
 
 import ckan.plugins as p
 from ckan.lib.helpers import build_nav_main as core_build_nav_main
 from ckan.lib.plugins import DefaultTranslation
+from ckan.plugins import toolkit as tk
 
-from ckanext.pages import actions
-from ckanext.pages import auth
-from ckanext.pages import blueprint, config as cfg
+from ckanext.pages import actions, auth, blueprint
+from ckanext.pages import config as cfg
 
 log = logging.getLogger(__name__)
 
@@ -21,7 +18,7 @@ def build_pages_nav_main(*args):
     about_menu = cfg.about_menu()
     group_menu = cfg.group_menu()
     org_menu = cfg.organization_menu()
-    root_path = tk.config['ckan.root_path'] or ""
+    root_path = tk.config["ckan.root_path"] or ""
 
     new_args = []
     for arg in args:
@@ -88,27 +85,31 @@ class PagesPluginBase(p.SingletonPlugin, DefaultTranslation):
     p.implements(p.ITranslation, inherit=True)
 
 
-@tk.blanket.auth_functions({
-    'ckanext_pages_show': auth.pages_show,
-    'ckanext_pages_update': auth.pages_update,
-    'ckanext_pages_delete': auth.pages_delete,
-    'ckanext_pages_list': auth.pages_list,
-    'ckanext_pages_upload': auth.pages_upload,
-    'ckanext_org_pages_show': auth.org_pages_show,
-    'ckanext_org_pages_update': auth.org_pages_update,
-    'ckanext_org_pages_delete': auth.org_pages_delete,
-    'ckanext_org_pages_list': auth.org_pages_list,
-    'ckanext_group_pages_show': auth.group_pages_show,
-    'ckanext_group_pages_update': auth.group_pages_update,
-    'ckanext_group_pages_delete': auth.group_pages_delete,
-    'ckanext_group_pages_list': auth.group_pages_list,
-})
-@tk.blanket.helpers({
-    'build_nav_main': build_pages_nav_main,
-    'render_content': render_content,
-    'pages_get_wysiwyg_editor': get_wysiwyg_editor,
-    'get_recent_blog_posts': get_recent_blog_posts,
-})
+@tk.blanket.auth_functions(
+    {
+        "ckanext_pages_show": auth.pages_show,
+        "ckanext_pages_update": auth.pages_update,
+        "ckanext_pages_delete": auth.pages_delete,
+        "ckanext_pages_list": auth.pages_list,
+        "ckanext_pages_upload": auth.pages_upload,
+        "ckanext_org_pages_show": auth.org_pages_show,
+        "ckanext_org_pages_update": auth.org_pages_update,
+        "ckanext_org_pages_delete": auth.org_pages_delete,
+        "ckanext_org_pages_list": auth.org_pages_list,
+        "ckanext_group_pages_show": auth.group_pages_show,
+        "ckanext_group_pages_update": auth.group_pages_update,
+        "ckanext_group_pages_delete": auth.group_pages_delete,
+        "ckanext_group_pages_list": auth.group_pages_list,
+    }
+)
+@tk.blanket.helpers(
+    {
+        "build_nav_main": build_pages_nav_main,
+        "render_content": render_content,
+        "pages_get_wysiwyg_editor": get_wysiwyg_editor,
+        "get_recent_blog_posts": get_recent_blog_posts,
+    }
+)
 @tk.blanket.blueprints([blueprint.pages])
 @tk.blanket.config_declarations
 class PagesPlugin(PagesPluginBase):

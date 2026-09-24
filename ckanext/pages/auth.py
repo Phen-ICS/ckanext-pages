@@ -51,8 +51,7 @@ def page_privacy(context, data_dict):
             "success": False,
             "msg": p.toolkit._("User %s not authorized to read this page") % user,
         }
-    else:
-        return {"success": True}
+    return {"success": True}
 
 
 pages_show = page_privacy

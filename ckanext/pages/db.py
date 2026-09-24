@@ -2,6 +2,7 @@ import datetime
 import json
 import uuid
 from collections import OrderedDict
+
 import sqlalchemy as sa
 from sqlalchemy import Column, types
 from sqlalchemy.dialects.postgresql import JSONB
