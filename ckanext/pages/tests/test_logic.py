@@ -378,6 +378,19 @@ class TestPages:
             headers=headers,
         )
 
+        # TEMPORARY diagnostic (see ckanext-pages MR !16)
+        print(f"\n[DIAGNOSTIC] request.host={response.request.host!r}")
+        print(
+            f"[DIAGNOSTIC] response Set-Cookie={response.headers.get('Set-Cookie')!r}"
+        )
+        print(
+            f"[DIAGNOSTIC] request Cookie sent={response.request.headers.get('Cookie')!r}"
+        )
+        import re as _re
+
+        _flash = _re.findall(r'alert[^"]*"[^>]*>([^<]{0,200})', response.body)
+        print(f"[DIAGNOSTIC] flash-like text found={_flash!r}")
+
         assert "Content from revision created on" in response.body
 
         response = app.get(
@@ -574,6 +587,19 @@ class TestPages:
             status=200,
             headers=headers,
         )
+
+        # TEMPORARY diagnostic (see ckanext-pages MR !16)
+        print(f"\n[DIAGNOSTIC] request.host={response.request.host!r}")
+        print(
+            f"[DIAGNOSTIC] response Set-Cookie={response.headers.get('Set-Cookie')!r}"
+        )
+        print(
+            f"[DIAGNOSTIC] request Cookie sent={response.request.headers.get('Cookie')!r}"
+        )
+        import re as _re
+
+        _flash = _re.findall(r'alert[^"]*"[^>]*>([^<]{0,200})', response.body)
+        print(f"[DIAGNOSTIC] flash-like text found={_flash!r}")
 
         assert "Content from revision created on" in response.body
 
