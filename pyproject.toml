@@ -57,7 +57,8 @@ include-package-data = true
 "*" = [
     "theme/*/*.html",
     "theme/*/*/*.html",
-    "theme/*/*/*/*.html"
+    "theme/*/*/*/*.html",
+    "config_declaration.yaml"
 ]
 
 [tool.setuptools.packages]
