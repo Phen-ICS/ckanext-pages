@@ -61,14 +61,21 @@ class TestPages:
             params={
                 "title": "Disallowed",
                 "name": "page_html_disallowed",
-                "content": "<mark>Test Link</mark>",
+                # <mark> used to be a good example of a stripped tag under
+                # CKAN 2.11's sanitizer (bleach), but CKAN 2.12 switched to
+                # nh3, whose default allowlist includes <mark> (a safe
+                # HTML5 tag) - so it's no longer disallowed and this
+                # assertion started failing under 2.12, not because of a
+                # regression but because the example tag itself changed
+                # category. <iframe> stays disallowed under both.
+                "content": "<iframe>Test Link</iframe>",
                 "private": False,
             },
             headers=headers,
         )
         assert '<h1 class="page-heading">Disallowed</h1>' in response.body
         assert "Test Link" in response.body
-        assert "<mark>Test Link</mark>" not in response.body
+        assert "<iframe>Test Link</iframe>" not in response.body
 
     @pytest.mark.ckan_config(cfg.ALLOW_HTML, False)
     def test_rendering_no_p_tags_added_with_html_disallowed(self, app):
