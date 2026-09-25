@@ -249,8 +249,15 @@ def pages_revision_restore(context, data_dict):
             page.content = revision["content"]
             page.save()
             return revision
-        except TypeError:
-            raise TypeError("Unexpected value.")
+        except TypeError as e:
+            # TEMPORARY diagnostic (see ckanext-pages MR !16): pin down why
+            # this raises on the real integration VM but not in local
+            # Docker testing (10/10 runs, both CKAN 2.11.5 and 2.12).
+            raise TypeError(
+                f"Unexpected value. rev={rev!r} revision={revision!r} "
+                f"available_keys={list(page.revisions.keys())!r} "
+                f"original_error={e!r}"
+            )
 
 
 def pages_delete(context, data_dict):
