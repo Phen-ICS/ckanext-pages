@@ -5,5 +5,155 @@
 requires = ["setuptools<77", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "ckanext-fair3r-pages"
+dynamic = ["version"]
+description = "Basic CMS extension for ckan"
+classifiers = [
+        'Development Status :: 5 - Production/Stable',
+        'License :: OSI Approved :: GNU Affero General Public License v3',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: Content Management System',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
+]
+keywords = [ "CKAN", "CMS"]
+requires-python = ">= 3.10"
+dependencies = [
+             "typing_extensions",
+]
+authors = [
+    {name = "David Raznick", email = "david.raznick@gokfn.org"},
+]
+
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.license]
+text = "AGPL"
+
+[project.urls]
+Homepage = "https://github.com/ckan/ckanext-pages"
+
+[project.optional-dependencies]
+dev = [ "pytest-ckan", "pytest-cov"]
+
+[project.entry-points."ckan.plugins"]
+pages = "ckanext.pages.plugin:PagesPlugin"
+textboxview = "ckanext.pages.plugin:TextBoxView"
+
+[project.entry-points."babel.extractors"]
+ckan = "ckan.lib.extract:extract_ckan"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = [
+    "theme/*/*.html",
+    "theme/*/*/*.html",
+    "theme/*/*/*/*.html",
+    "config_declaration.yaml"
+]
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools.dynamic]
+version = {attr = "ckanext.pages.__version__"}
+
 [tool.ruff.lint]
 ignore = ["EXE001"]
+
+[tool.pytest.ini_options]
+addopts = "--ckan-ini test.ini"
+filterwarnings = [
+]
+
+[tool.pyright]
+extraPaths = [
+           "../ckan",
+]
+pythonVersion = "3.10"
+include = ["ckanext"]
+exclude = [
+    # "**/test*",
+    "**/migration",
+]
+strict = []
+
+strictParameterNoneValue = true
+
+# Check the meaning of rules here
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+reportFunctionMemberAccess = true # non-standard member accesses for functions
+reportMissingImports = true
+reportMissingModuleSource = true
+reportMissingTypeStubs = false
+reportImportCycles = true
+reportUnusedImport = true
+reportUnusedClass = true
+reportUnusedFunction = true
+reportUnusedVariable = true
+reportDuplicateImport = true
+reportOptionalSubscript = true
+reportOptionalMemberAccess = true
+reportOptionalCall = true
+reportOptionalIterable = true
+reportOptionalContextManager = true
+reportOptionalOperand = true
+reportTypedDictNotRequiredAccess = false # Context won't work with this rule
+reportConstantRedefinition = true
+reportIncompatibleMethodOverride = true
+reportIncompatibleVariableOverride = true
+reportOverlappingOverload = true
+reportUntypedFunctionDecorator = false
+reportUnknownParameterType = true
+reportUnknownArgumentType = false
+reportUnknownLambdaType = false
+reportUnknownMemberType = false
+reportMissingTypeArgument = true
+reportInvalidTypeVarUse = true
+reportCallInDefaultInitializer = true
+reportUnknownVariableType = true
+reportUntypedBaseClass = true
+reportUnnecessaryIsInstance = true
+reportUnnecessaryCast = true
+reportUnnecessaryComparison = true
+reportAssertAlwaysTrue = true
+reportSelfClsParameterName = true
+reportUnusedCallResult = false # allow function calls for side-effect only
+useLibraryCodeForTypes = true
+reportGeneralTypeIssues = true
+reportPropertyTypeMismatch = true
+reportWildcardImportFromLibrary = true
+reportUntypedClassDecorator = false
+reportUntypedNamedTuple = true
+reportPrivateUsage = true
+reportPrivateImportUsage = true
+reportInconsistentConstructor = true
+reportMissingSuperCall = false
+reportUninitializedInstanceVariable = true
+reportInvalidStringEscapeSequence = true
+reportMissingParameterType = true
+reportImplicitStringConcatenation = false
+reportUndefinedVariable = true
+reportUnboundVariable = true
+reportInvalidStubStatement = true
+reportIncompleteStub = true
+reportUnsupportedDunderAll = true
+reportUnusedCoroutine = true
+reportUnnecessaryTypeIgnoreComment = true
+reportMatchNotExhaustive = true
+reportExplicitAny = false
+reportAny = false
+reportUnannotatedClassAttribute = false
+
+[tool.coverage.run]
+branch = true
+omit = ["ckanext/pages/tests/*"]

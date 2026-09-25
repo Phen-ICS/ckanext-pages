@@ -1,10 +1,10 @@
 import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.plugins as p
 import ckan.plugins.toolkit as tk
-import six
 from ckan import logic
 from ckan.lib import helpers
 
+from ckanext.pages import config as cfg
 from ckanext.pages.db import Page
 
 config = tk.config
@@ -25,7 +25,7 @@ def pages_list_pages(page_type):
         context={}, data_dict=data_dict
     )
     tk.g.page = helpers.Page(
-        collection=tk.c.pages_dict,
+        collection=tk.g.pages_dict,
         page=tk.request.args.get("page", 1),
         url=helpers.pager_url,
         items_per_page=21,
@@ -80,7 +80,7 @@ def pages_edit(
     errors = errors or {}
     error_summary = error_summary or {}
 
-    form_snippet = config.get("ckanext.pages.form", "ckanext_pages/base_form.html")
+    form_snippet = cfg.form()
 
     vars = {
         "data": data,
@@ -159,7 +159,10 @@ def _inject_views_into_page(_page):
         view_element = lxml.html.fromstring(resource_view_html)
         element.append(view_element)
 
-    new_content = six.ensure_text(lxml.html.tostring(root))
+    new_content = lxml.html.tostring(root)
+    if isinstance(new_content, bytes):
+        new_content = new_content.decode()
+
     if new_content.startswith("<div>") and new_content.endswith("</div>"):
         # lxml will add a <div> tag to text that starts with an HTML tag,
         # which will cause the rendering to fail
@@ -172,7 +175,7 @@ def _inject_views_into_page(_page):
 
 
 def pages_show(page=None, page_type="page"):
-    tk.c.page_type = page_type
+    tk.g.page_type = page_type
     page = page.removeprefix("/")
     if not page:
         return pages_list_pages(page_type)
@@ -181,7 +184,7 @@ def pages_show(page=None, page_type="page"):
     )
     if _page is None:
         return pages_list_pages(page_type)
-    tk.c.page = _page
+    tk.g.page = _page
     _inject_views_into_page(_page)
 
     return tk.render(f"ckanext_pages/{page_type}.html")
@@ -197,8 +200,8 @@ def pages_revisions(page, page_type="page"):
 
     if not _page:
         return tk.abort(404, _("Page Not Found"))
-    tk.c.page_type = page_type
-    tk.c.page = _page
+    tk.g.page_type = page_type
+    tk.g.page = _page
     return tk.render(f"ckanext_pages/{page_type}_revisions.html")
 
 
@@ -209,8 +212,8 @@ def pages_revisions_preview(page, revision, page_type="page"):
         return tk.abort(401, _("Unauthorized to view this page"))
 
     _page = Page.get(name=page)
-    tk.c.page_type = page_type
-    tk.c.page = _page
+    tk.g.page_type = page_type
+    tk.g.page = _page
     try:
         return tk.render(
             f"ckanext_pages/{page_type}_revisions_preview.html",
@@ -255,8 +258,7 @@ def pages_delete(page, page_type="pages"):
             tk.get_action("ckanext_pages_delete")({}, {"page": page})
             endpoint = page_type + "_index"
             return tk.redirect_to(f"pages.{endpoint}")
-        else:
-            return tk.abort(404, _("Page Not Found"))
+        return tk.abort(404, _("Page Not Found"))
     except tk.NotAuthorized:
         return tk.abort(401, _("Unauthorized to delete page"))
     except tk.ObjectNotFound:
@@ -279,8 +281,8 @@ def pages_upload():
 
 
 def group_list_pages(id, group_type, group_dict=None):
-    tk.c.pages_dict = tk.get_action("ckanext_pages_list")(
-        context={}, data_dict={"org_id": tk.group_dict["id"]}
+    tk.g.pages_dict = tk.get_action("ckanext_pages_list")(
+        context={}, data_dict={"org_id": tk.g.group_dict["id"]}
     )
     return tk.render(
         f"ckanext_pages/{group_type}_page_list.html",
@@ -294,11 +296,11 @@ def _template_setup_group(id, group_type):
     context = {"for_view": True}
     action = "organization_show" if group_type == "organization" else "group_show"
     try:
-        tk.group_dict = tk.get_action(action)(context, {"id": id})
+        tk.g.group_dict = tk.get_action(action)(context, {"id": id})
     except tk.ObjectNotFound:
-        tk.abort(404, (_("%s not found") % group_type.title()))
+        tk.abort(404, _("%s not found") % group_type.title())
     except tk.NotAuthorized:
-        tk.abort(401, (_("Unauthorized to read %s %s") % (group_type, id)))
+        tk.abort(401, _("Unauthorized to read %s %s") % (group_type, id))
 
 
 def group_show(id, group_type, page=None):
@@ -318,12 +320,12 @@ def group_show(id, group_type, page=None):
         return group_list_pages(id, group_type, group_dict)
 
     _page = tk.get_action("ckanext_pages_show")(
-        context={}, data_dict={"org_id": tk.group_dict["id"], "page": page}
+        context={}, data_dict={"org_id": tk.g.group_dict["id"], "page": page}
     )
     if _page is None:
         return group_list_pages(id, group_type, group_dict)
 
-    tk.c.page = _page
+    tk.g.page = _page
 
     return tk.render(
         f"ckanext_pages/{group_type}_page.html",
@@ -339,7 +341,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
     if page:
         page = page.removeprefix("/")
         page_dict = tk.get_action("ckanext_pages_show")(
-            context={}, data_dict={"org_id": tk.group_dict["id"], "page": page}
+            context={}, data_dict={"org_id": tk.g.group_dict["id"], "page": page}
         )
     if page_dict is None:
         page_dict = {}
@@ -350,7 +352,7 @@ def group_edit(id, group_type, page=None, data=None, errors=None, error_summary=
         page_dict.update(data)
 
         data = _parse_form_data(tk.request)
-        page_dict["org_id"] = tk.group_dict["id"]
+        page_dict["org_id"] = tk.g.group_dict["id"]
         page_dict["page"] = page
         try:
             tk.get_action("ckanext_org_pages_update")(context={}, data_dict=page_dict)
@@ -393,7 +395,7 @@ def group_delete(id, group_type, page):
 
     if "cancel" in tk.request.args:
         return tk.redirect_to(
-            f"pages.{group_type}_edit", id=tk.group_dict["name"], page=page
+            f"pages.{group_type}_edit", id=tk.g.group_dict["name"], page=page
         )
 
     try:
@@ -404,15 +406,14 @@ def group_delete(id, group_type, page):
                 else "ckanext_group_pages_delete"
             )
             action = tk.get_action(action)
-            action({}, {"org_id": tk.group_dict["id"], "page": page})
+            action({}, {"org_id": tk.g.group_dict["id"], "page": page})
             endpoint = f"pages.{group_type}_pages_index"
             return tk.redirect_to(endpoint, id=id)
-        else:
-            tk.abort(404, _("Page Not Found"))
+        tk.abort(404, _("Page Not Found"))
     except tk.NotAuthorized:
         tk.abort(401, _("Unauthorized to delete page"))
     except tk.ObjectNotFound:
-        tk.abort(404, (_("%s not found") % group_type.title()))
+        tk.abort(404, _("%s not found") % group_type.title())
 
     context = {"for_view": True}
 
