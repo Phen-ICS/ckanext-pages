@@ -5,6 +5,12 @@ import re
 import pytest
 
 
+@pytest.fixture
+def clean_db(reset_db, migrate_db_for):
+    reset_db()
+    migrate_db_for("pages")
+
+
 def _resolve_ckan_ini(session):
     ckan_ini = getattr(session.config.option, "ckan_ini", "") or ""
     if ckan_ini:
