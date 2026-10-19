@@ -85,7 +85,9 @@
 
     {% if not hide_field_order %}
       <div class="control-group form-group">
-        <label for="field-order" class="control-label">{{ _('Header Order') }}</label>
+        {# Organization/group pages never go in the site header - their order
+           puts them in that organization's/group's own tabs instead. #}
+        <label for="field-order" class="control-label">{% if type == 'org' %}{{ _('Order in the organization menu') }}{% elif type == 'group' %}{{ _('Order in the group menu') }}{% else %}{{ _('Header Order') }}{% endif %}</label>
         <div class="controls">
           <select id="field-order" class="form-control" name="order">
               {% for option in [('', _('Not in Menu')), ('1','1'), ('2', '2'), ('3', '3') , ('4', '4')] %}

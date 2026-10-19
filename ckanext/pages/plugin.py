@@ -57,6 +57,19 @@ def build_pages_nav_main(*args):
     return output
 
 
+def pages_group_menu(group_id):
+    """Pages of an organization/group that have a "Header Order", in that
+    order - shown as tabs in that organization's own nav (e.g. a License
+    page per organization). The site header only ever lists site-wide
+    pages, so this is where an organization page's order means
+    something. Private pages are left to ckanext_pages_list's own rule
+    (members only)."""
+    user = tk.current_user.name if tk.current_user.is_authenticated else ""
+    return tk.get_action("ckanext_pages_list")(
+        {"user": user}, {"org_id": group_id, "order": True}
+    )
+
+
 def render_content(content):
     allow_html = cfg.allow_html()
     return tk.h.render_markdown(content, allow_html=allow_html)
@@ -106,6 +119,7 @@ class PagesPluginBase(p.SingletonPlugin, DefaultTranslation):
     {
         "build_nav_main": build_pages_nav_main,
         "render_content": render_content,
+        "pages_group_menu": pages_group_menu,
         "pages_get_wysiwyg_editor": get_wysiwyg_editor,
         "get_recent_blog_posts": get_recent_blog_posts,
     }
