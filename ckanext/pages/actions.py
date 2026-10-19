@@ -75,6 +75,7 @@ def _pages_list(context, data_dict):
             "publish_date": pg.publish_date.isoformat() if pg.publish_date else None,
             "group_id": pg.group_id,
             "page_type": pg.page_type,
+            "order": pg.order,
         }
         if img:
             pg_row["image"] = img
