@@ -2,9 +2,12 @@
 
 {% block content_primary_nav %}
   {{ super() }}
+  {# CKAN 2.12 views pass group_dict as a template variable; some (e.g.
+     the activity stream) no longer set g.group_dict at all. #}
+  {% set pages_group = group_dict or g.group_dict %}
   {% if h.ckan_version().split('.')[1] | int >= 9 %}
-    {{ h.build_nav_icon('pages.organization_pages_index', _('Pages'), id=g.group_dict.name, icon='file') }}
+    {{ h.build_nav_icon('pages.organization_pages_index', _('Pages'), id=pages_group.name, icon='file') }}
   {% else %}
-    {{ h.build_nav_icon('organization_pages_index', _('Pages'), id=g.group_dict.name, icon='file') }}
+    {{ h.build_nav_icon('organization_pages_index', _('Pages'), id=pages_group.name, icon='file') }}
   {% endif %}
 {% endblock %}
