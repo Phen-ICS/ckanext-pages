@@ -5,16 +5,17 @@
   {# CKAN 2.12 views pass group_dict as a template variable; some (e.g.
      the activity stream) no longer set g.group_dict at all. #}
   {% set pages_group = group_dict or g.group_dict %}
-  {% if h.ckan_version().split('.')[1] | int >= 9 %}
-    {{ h.build_nav_icon('pages.organization_pages_index', _('Pages'), id=pages_group.name, icon='file') }}
-  {% else %}
-    {{ h.build_nav_icon('organization_pages_index', _('Pages'), id=pages_group.name, icon='file') }}
-  {% endif %}
+  {# order:1 on these tabs (the nav is a flexbox): shown after the
+     Activity Stream tab, which ckanext-activity appends after everything
+     else since it's loaded before ckanext-pages. Built by hand to carry
+     that style. #}
+  {% set pages_index_url = h.url_for('pages.organization_pages_index', id=pages_group.name) %}
+  <li style="order: 1"{% if request.path == pages_index_url %} class="active"{% endif %}><a href="{{ pages_index_url }}"><i class="fa fa-file"></i> {{ _('Pages') }}</a></li>
   {# One tab per page of this organization that has a "Header Order" (e.g. its
      License page). Built by hand rather than with build_nav_icon: every
      page shares the same endpoint, which would highlight all of them. #}
   {% for pg in h.pages_group_menu(pages_group.id) %}
     {% set pg_url = h.url_for('pages.organization_pages_show', id=pages_group.name, page=pg.name) %}
-    <li{% if request.path == pg_url %} class="active"{% endif %}><a href="{{ pg_url }}"><i class="fa fa-file-alt"></i> {{ pg.title }}</a></li>
+    <li style="order: 1"{% if request.path == pg_url %} class="active"{% endif %}><a href="{{ pg_url }}"><i class="fa fa-file-alt"></i> {{ pg.title }}</a></li>
   {% endfor %}
 {% endblock %}
