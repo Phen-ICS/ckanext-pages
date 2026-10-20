@@ -328,3 +328,31 @@ msgstr ""
 msgid "There are currently no pages here"
 msgstr ""
 
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:90
+msgid "Order in the organization menu"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:90
+msgid "Order in the group menu"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:97
+msgid "0 - before Datasets"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:98
+msgid "1 - between Datasets and Members"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:99
+msgid "2 - between Members and About"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:100
+msgid "3 - between About and Activity Stream"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:101
+msgid "4 - between Activity Stream and Pages"
+msgstr ""
+
