@@ -7,26 +7,27 @@
   {% set pages_group = group_dict or g.group_dict %}
   {# The nav is a flexbox: CSS `order` places this group's pages among
      CKAN's own tabs without rebuilding them (they come from core and
-     ckanext-activity through super()). Datasets 10, Members 20, About 30,
-     Activity Stream 40, Pages 50, a page of order n at 10n+5 - so 0 is
-     before Datasets and 4 between Activity Stream and Pages. A tab added
-     by another plugin sits at 45, after CKAN's own. #}
+     ckanext-activity through super()). Datasets 100, Members 200, About
+     300, Activity Stream 400, Pages 500; a page at position n, rank r at
+     n*100 + 50 + r (h.pages_tab_css_order, ckanext/pages/ordering.py) -
+     so position 0 is before Datasets and 4 between Activity Stream and
+     Pages. A tab added by another plugin sits at 470, after CKAN's own. #}
   <style>
-    .page-header .nav-tabs > li { order: 45; }
-    .page-header .nav-tabs > li:has(> a[href="{{ h.url_for('group.read', id=pages_group.name) }}"]) { order: 10; }
-    .page-header .nav-tabs > li:has(> a[href="{{ h.url_for('group.members', id=pages_group.name) }}"]) { order: 20; }
-    .page-header .nav-tabs > li:has(> a[href="{{ h.url_for('group.about', id=pages_group.name) }}"]) { order: 30; }
+    .page-header .nav-tabs > li { order: 470; }
+    .page-header .nav-tabs > li:has(> a[href="{{ h.url_for('group.read', id=pages_group.name) }}"]) { order: 100; }
+    .page-header .nav-tabs > li:has(> a[href="{{ h.url_for('group.members', id=pages_group.name) }}"]) { order: 200; }
+    .page-header .nav-tabs > li:has(> a[href="{{ h.url_for('group.about', id=pages_group.name) }}"]) { order: 300; }
     {% if h.plugin_loaded('activity') %}
-    .page-header .nav-tabs > li:has(> a[href^="{{ h.url_for('activity.group_activity', id=pages_group.name) }}"]) { order: 40; }
+    .page-header .nav-tabs > li:has(> a[href^="{{ h.url_for('activity.group_activity', id=pages_group.name) }}"]) { order: 400; }
     {% endif %}
   </style>
   {% set pages_index_url = h.url_for('pages.group_pages_index', id=pages_group.name) %}
-  <li style="order: 50"{% if request.path == pages_index_url %} class="active"{% endif %}><a href="{{ pages_index_url }}"><i class="fa fa-file"></i> {{ _('Pages') }}</a></li>
+  <li style="order: 500"{% if request.path == pages_index_url %} class="active"{% endif %}><a href="{{ pages_index_url }}"><i class="fa fa-file"></i> {{ _('Pages') }}</a></li>
   {# One tab per page of this group that has an order (e.g. its License
      page). Built by hand rather than with build_nav_icon: every page
      shares the same endpoint, which would highlight all of them. #}
   {% for pg in h.pages_group_menu(pages_group.id) %}
     {% set pg_url = h.url_for('pages.group_pages_show', id=pages_group.name, page=pg.name) %}
-    <li style="order: {{ (pg.order | int) * 10 + 5 }}"{% if request.path == pg_url %} class="active"{% endif %}><a href="{{ pg_url }}"><i class="fa fa-file-alt"></i> {{ pg.title }}</a></li>
+    <li style="order: {{ h.pages_tab_css_order(pg.order) }}"{% if request.path == pg_url %} class="active"{% endif %}><a href="{{ pg_url }}"><i class="fa fa-file-alt"></i> {{ pg.title }}</a></li>
   {% endfor %}
 {% endblock %}

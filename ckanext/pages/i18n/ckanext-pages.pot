@@ -356,3 +356,43 @@ msgstr ""
 msgid "4 - between Activity Stream and Pages"
 msgstr ""
 
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Position in the organization menu"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Position in the group menu"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Position in the main menu"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:105
+msgid "1 - between Datasets and Organizations"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:106
+msgid "2 - between Organizations and Groups"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:107
+msgid "3 - between Groups and About"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:108
+msgid "4 - after About"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:121
+msgid "Order among pages at that position"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:125
+msgid "1 (first)"
+msgstr ""
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:128
+msgid "Pages with the same position and order are sorted by title."
+msgstr ""
+

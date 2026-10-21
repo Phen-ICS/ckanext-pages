@@ -361,3 +361,43 @@ msgstr "3 - entre À propos et Flux d'activité"
 msgid "4 - between Activity Stream and Pages"
 msgstr "4 - entre Flux d'activité et Pages"
 
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Position in the organization menu"
+msgstr "Position dans le menu de l'organisation"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Position in the group menu"
+msgstr "Position dans le menu du groupe"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Position in the main menu"
+msgstr "Position dans le menu principal"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:105
+msgid "1 - between Datasets and Organizations"
+msgstr "1 - entre Jeux de données et Organisations"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:106
+msgid "2 - between Organizations and Groups"
+msgstr "2 - entre Organisations et Groupes"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:107
+msgid "3 - between Groups and About"
+msgstr "3 - entre Groupes et À propos"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:108
+msgid "4 - after About"
+msgstr "4 - après À propos"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:121
+msgid "Order among pages at that position"
+msgstr "Ordre parmi les pages à cette position"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:125
+msgid "1 (first)"
+msgstr "1 (en premier)"
+
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:128
+msgid "Pages with the same position and order are sorted by title."
+msgstr "Les pages ayant la même position et le même ordre sont triées par titre."
+
