@@ -333,71 +333,29 @@ msgstr "Il n'y a actuellement aucun article de blog ici"
 msgid "There are currently no pages here"
 msgstr "Il n'y a actuellement aucune page ici"
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:90
-msgid "Order in the organization menu"
-msgstr "Position dans le menu de l'organisation"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:90
-msgid "Order in the group menu"
-msgstr "Position dans le menu du groupe"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:97
-msgid "0 - before Datasets"
-msgstr "0 - avant Jeux de données"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:98
-msgid "1 - between Datasets and Members"
-msgstr "1 - entre Jeux de données et Membres"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:99
-msgid "2 - between Members and About"
-msgstr "2 - entre Membres et À propos"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:100
-msgid "3 - between About and Activity Stream"
-msgstr "3 - entre À propos et Flux d'activité"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:101
-msgid "4 - between Activity Stream and Pages"
-msgstr "4 - entre Flux d'activité et Pages"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:96
 msgid "Position in the organization menu"
 msgstr "Position dans le menu de l'organisation"
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:96
 msgid "Position in the group menu"
 msgstr "Position dans le menu du groupe"
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:96
 msgid "Position in the main menu"
 msgstr "Position dans le menu principal"
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:105
-msgid "1 - between Datasets and Organizations"
-msgstr "1 - entre Jeux de données et Organisations"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:106
-msgid "2 - between Organizations and Groups"
-msgstr "2 - entre Organisations et Groupes"
-
 #: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:107
-msgid "3 - between Groups and About"
-msgstr "3 - entre Groupes et À propos"
+msgid "0: before the first entry of the menu; 1 to 4: after the 1st to 4th entry."
+msgstr ""
+"0 : avant la première entrée du menu ; 1 à 4 : après la 1re à la 4e "
+"entrée."
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:108
-msgid "4 - after About"
-msgstr "4 - après À propos"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:121
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
 msgid "Order among pages at that position"
 msgstr "Ordre parmi les pages à cette position"
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:125
-msgid "1 (first)"
-msgstr "1 (en premier)"
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:128
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:118
 msgid "Pages with the same position and order are sorted by title."
 msgstr "Les pages ayant la même position et le même ordre sont triées par titre."
 

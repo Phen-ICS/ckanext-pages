@@ -73,7 +73,7 @@ class TestOrganizationPagesMenu:
         ).body
 
         assert '<option value="0"' in body
-        assert "0 - before Datasets" in body
+        assert "before the first entry of the menu" in body
         assert 'name="order_rank"' in body
 
 
