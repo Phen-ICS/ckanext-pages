@@ -11,7 +11,7 @@ from ckan.model.types import make_uuid
 from ckan.plugins import toolkit as tk
 
 from ckanext.pages import config as cfg
-from ckanext.pages import db
+from ckanext.pages import db, ordering
 from ckanext.pages.logic.schema import update_pages_schema
 
 
@@ -83,6 +83,11 @@ def _pages_list(context, data_dict):
         if extras:
             pg_row.update(json.loads(pg.extras))
         out_list.append(pg_row)
+    if ordered:
+        # Position, then rank, then title - see ordering.py. The database
+        # only sorts by the raw number, which mixes old (0-4) and new
+        # (10-59) values and leaves ties in no particular order.
+        out_list.sort(key=ordering.sort_key)
     return out_list
 
 
@@ -96,7 +101,22 @@ def _pages_delete(context, data_dict):
         session.commit()
 
 
+def _apply_order_form_fields(data_dict):
+    """The edit form sends a position and a rank (two selects); stored
+    together in `order` - see ordering.py. API callers can still send
+    `order` directly."""
+    if "order_position" not in data_dict:
+        return
+    position = data_dict.pop("order_position")
+    rank = data_dict.pop("order_rank", None)
+    try:
+        data_dict["order"] = ordering.encode(position, rank)
+    except ValueError as e:
+        raise p.toolkit.ValidationError({"order": [str(e)]})
+
+
 def _pages_update(context, data_dict):
+    _apply_order_form_fields(data_dict)
     org_id = data_dict.get("org_id")
     page = data_dict.get("page")
     # we need the page in the context for name validation

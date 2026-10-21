@@ -328,31 +328,27 @@ msgstr ""
 msgid "There are currently no pages here"
 msgstr ""
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:90
-msgid "Order in the organization menu"
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:96
+msgid "Position in the organization menu"
 msgstr ""
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:90
-msgid "Order in the group menu"
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:96
+msgid "Position in the group menu"
 msgstr ""
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:97
-msgid "0 - before Datasets"
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:96
+msgid "Position in the main menu"
 msgstr ""
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:98
-msgid "1 - between Datasets and Members"
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:107
+msgid "0: before the first entry of the menu; 1 to 4: after the 1st to 4th entry."
 msgstr ""
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:99
-msgid "2 - between Members and About"
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:111
+msgid "Order among pages at that position"
 msgstr ""
 
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:100
-msgid "3 - between About and Activity Stream"
-msgstr ""
-
-#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:101
-msgid "4 - between Activity Stream and Pages"
+#: ckanext/pages/theme/templates_main/ckanext_pages/base_form.html:118
+msgid "Pages with the same position and order are sorted by title."
 msgstr ""
 

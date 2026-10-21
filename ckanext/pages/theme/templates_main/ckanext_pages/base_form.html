@@ -84,28 +84,38 @@
     </div>
 
     {% if not hide_field_order %}
+      {# Where the page goes in a menu: a position among the menu's own
+         entries, then a rank among the pages sharing it - stored together
+         in `order` (see ckanext/pages/ordering.py). Site pages go in the
+         main menu; organization/group pages in that organization's or
+         group's own tabs (see their read_base.html). #}
+      {% set order_parts = h.pages_order_parts(data.get('order')) %}
+      {% set current_position = data.order_position if data.order_position is defined else (order_parts[0] | string if order_parts else '') %}
+      {% set current_rank = data.order_rank if data.order_rank is defined else ((order_parts[1] if order_parts and order_parts[1] else 1) | string) %}
       <div class="control-group form-group">
-        {# Organization/group pages never go in the site header - their order
-           puts them in that organization's/group's own tabs instead. #}
-        <label for="field-order" class="control-label">{% if type == 'org' %}{{ _('Order in the organization menu') }}{% elif type == 'group' %}{{ _('Order in the group menu') }}{% else %}{{ _('Header Order') }}{% endif %}</label>
+        <label for="field-order-position" class="control-label">{% if type == 'org' %}{{ _('Position in the organization menu') }}{% elif type == 'group' %}{{ _('Position in the group menu') }}{% else %}{{ _('Position in the main menu') }}{% endif %}</label>
         <div class="controls">
-          <select id="field-order" class="form-control" name="order">
-              {# An organization/group page's order is its place among that
-                 organization's/group's own tabs - see its read_base.html. #}
-              {% if type in ('org', 'group') %}
-                {% set order_options = [('', _('Not in Menu')),
-                                        ('0', _('0 - before Datasets')),
-                                        ('1', _('1 - between Datasets and Members')),
-                                        ('2', _('2 - between Members and About')),
-                                        ('3', _('3 - between About and Activity Stream')),
-                                        ('4', _('4 - between Activity Stream and Pages'))] %}
-              {% else %}
-                {% set order_options = [('', _('Not in Menu')), ('1','1'), ('2', '2'), ('3', '3') , ('4', '4')] %}
-              {% endif %}
-              {% for option in order_options %}
-            <option value="{{ option[0] }}" {% if option[0] == data.order %}selected="selected"{% endif %}>{{ option[1] }}</option>
+          <select id="field-order-position" class="form-control" name="order_position">
+            <option value="" {% if current_position == '' %}selected="selected"{% endif %}>{{ _('Not in Menu') }}</option>
+            {% for position in range(0, 5) %}
+              <option value="{{ position }}" {% if position | string == current_position %}selected="selected"{% endif %}>{{ position }}</option>
             {% endfor %}
           </select>
+          {# Numbers only, described generically: the menu's entries depend
+             on the site (its header, hidden entries, renamed datasets), so
+             naming them here could be wrong. #}
+          <span class="info-block">{{ _('0: before the first entry of the menu; 1 to 4: after the 1st to 4th entry.') }}</span>
+        </div>
+      </div>
+      <div class="control-group form-group">
+        <label for="field-order-rank" class="control-label">{{ _('Order among pages at that position') }}</label>
+        <div class="controls">
+          <select id="field-order-rank" class="form-control" name="order_rank">
+            {% for rank in range(1, 10) %}
+              <option value="{{ rank }}" {% if rank | string == current_rank %}selected="selected"{% endif %}>{{ rank }}</option>
+            {% endfor %}
+          </select>
+          <span class="info-block">{{ _('Pages with the same position and order are sorted by title.') }}</span>
         </div>
       </div>
     {% endif %}

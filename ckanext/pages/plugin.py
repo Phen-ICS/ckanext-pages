@@ -7,7 +7,7 @@ from ckan.lib.helpers import build_nav_main as core_build_nav_main
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import toolkit as tk
 
-from ckanext.pages import actions, auth, blueprint
+from ckanext.pages import actions, auth, blueprint, ordering
 from ckanext.pages import config as cfg
 
 log = logging.getLogger(__name__)
@@ -30,8 +30,6 @@ def build_pages_nav_main(*args):
             continue
         new_args.append(arg)
 
-    output = core_build_nav_main(*new_args)
-
     # do not display any private pages in menu even for sysadmins
     pages_list = tk.get_action("ckanext_pages_list")(
         None, {"order": True, "private": False}
@@ -43,16 +41,29 @@ def build_pages_nav_main(*args):
     if is_current_page:
         page_name = tk.request.path.split("/")[-1]
 
-    for page in pages_list:
+    def page_item(page):
         type_ = "blog" if page["page_type"] == "blog" else "pages"
         name = quote(page["name"])
         title = html_escape(page["title"])
         link = tk.h.literal(f'<a href="{root_path}/{type_}/{name}">{title}</a>')
         if page["name"] == page_name:
-            li = tk.literal('<li class="active">') + link + tk.literal("</li>")
-        else:
-            li = tk.literal("<li>") + link + tk.literal("</li>")
-        output = output + li
+            return tk.literal('<li class="active">') + link + tk.literal("</li>")
+        return tk.literal("<li>") + link + tk.literal("</li>")
+
+    # Each page goes in its position among the menu's own entries
+    # (0: before the first, n: after the n-th - see ordering.py), already
+    # sorted by position, rank and title by ckanext_pages_list.
+    by_position = {}
+    for page in pages_list:
+        position, _rank = ordering.decode(page["order"]) or (len(new_args), 0)
+        by_position.setdefault(min(position, len(new_args)), []).append(page)
+
+    output = tk.literal("")
+    for index in range(len(new_args) + 1):
+        for page in by_position.get(index, []):
+            output = output + page_item(page)
+        if index < len(new_args):
+            output = output + core_build_nav_main(new_args[index])
 
     return output
 
@@ -120,6 +131,8 @@ class PagesPluginBase(p.SingletonPlugin, DefaultTranslation):
         "build_nav_main": build_pages_nav_main,
         "render_content": render_content,
         "pages_group_menu": pages_group_menu,
+        "pages_order_parts": ordering.decode,
+        "pages_tab_css_order": ordering.tab_css_order,
         "pages_get_wysiwyg_editor": get_wysiwyg_editor,
         "get_recent_blog_posts": get_recent_blog_posts,
     }
